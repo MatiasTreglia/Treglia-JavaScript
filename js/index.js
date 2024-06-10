@@ -45,14 +45,16 @@ function principal() {
     do {
         masa = parseFloat(document.getElementById("masa").value);
         if (isNaN(masa) || masa <= 0) {
-            alert(`Por favor, ingresar un numero valido`);
+            alert(`Por favor, ingresar un numero valido para el peso`);
+            break
         }
     } while (isNaN(masa) || masa <= 0);
 
     do {
         altura = parseFloat(document.getElementById("altura").value);
         if (isNaN(altura) || altura <= 0) {
-            alert(`Por favor, ingresar un numero valido`);
+            alert(`Por favor, ingresar un numero valido para la altura`);
+            break
         }
     } while (isNaN(altura) || altura <= 0);
 
