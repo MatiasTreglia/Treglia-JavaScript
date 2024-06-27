@@ -1,10 +1,10 @@
-// Calculadora de BMI (Body mass Index/indice de masa corporal)
+/* Calculadora de BMI (Body mass Index/indice de masa corporal)
 
-// La calculadora de masa corporal (en inglés, "Body Mass Index calculator" o "BMI calculator")
-// Es una herramienta que se utiliza para estimar si una persona tiene un peso saludable en relación con su altura.
-// El índice de masa corporal (IMC o BMI por sus siglas en inglés) se calcula utilizando la siguiente fórmula:
+La calculadora de masa corporal (en inglés, "Body Mass Index calculator" o "BMI calculator")
+Es una herramienta que se utiliza para estimar si una persona tiene un peso saludable en relación con su altura.
+El índice de masa corporal (IMC o BMI por sus siglas en inglés) se calcula utilizando la siguiente fórmula:
 
-// BMI = m(kg)/a(m)²
+BMI = m(kg)/a(m)² */
 
 /* Pasos para calcular el IMC:
 
@@ -21,7 +21,7 @@
 
 
 
-//Se crea el objeto personasobj        
+/* Clase PersonaObj para almacenar datos de persona */
 class PersonaObj {
     constructor(nombre, masa, altura, bmi) {
         this.nombre = nombre;
@@ -31,77 +31,135 @@ class PersonaObj {
     }
 }
 
-//Declaracion de array guardar la informacion del objeto personasobj con los datos de la personas.
-
+/* Array para almacenar objetos PersonaObj */
 let personasArray = [];
 
-//Funcion de toma de datos
-
-function principal() {
-    let masa
-    let altura
-    let nombre = document.getElementById("nombre").value;
-
-    do {
-        masa = parseFloat(document.getElementById("masa").value);
-        if (isNaN(masa) || masa <= 0) {
-            alert(`Por favor, ingresar un numero valido para el peso`);
-            break
-        }
-    } while (isNaN(masa) || masa <= 0);
-
-    do {
-        altura = parseFloat(document.getElementById("altura").value);
-        if (isNaN(altura) || altura <= 0) {
-            alert(`Por favor, ingresar un numero valido para la altura`);
-            break
-        }
-    } while (isNaN(altura) || altura <= 0);
-
-    let bmi = calculadoraBMI(masa, altura);
-    interpretacionBMI(bmi, nombre);
-
-    let datosbmi = new PersonaObj(nombre, masa, altura, bmi);
-    
-    personasArray.push(datosbmi);
-    tablaResultados();
-}
-
-//Funcion para calcular el BMI
-
+/* Función para calcular el BMI */
 function calculadoraBMI(masa, altura) {
     return masa / (altura * altura);
 }
 
-//Funcion para interpretar el BMI
-
+/* Función para interpretar el BMI y mostrar resultado */
 function interpretacionBMI(bmi, nombre) {
     if (bmi < 18.5)
-        document.getElementById('resultado').innerText = `Hola ${nombre}, tu BMI es ${bmi.toFixed(2)} lo que indica que tiene un bajo peso`;
+        return `Hola ${nombre}, tu BMI es ${bmi.toFixed(2)} lo que indica que tienes bajo peso`;
     else if (bmi >= 18.5 && bmi <= 24.9)
-        document.getElementById('resultado').innerText = `Hola ${nombre}, tu BMI es ${bmi.toFixed(2)} lo que indica que tiene un peso normal`;
+        return `Hola ${nombre}, tu BMI es ${bmi.toFixed(2)} lo que indica que tienes un peso normal`;
     else if (bmi >= 25 && bmi <= 29.9)
-        document.getElementById('resultado').innerText = `Hola ${nombre}, tu BMI es ${bmi.toFixed(2)} lo que indica que tiene sobrepeso`;
+        return `Hola ${nombre}, tu BMI es ${bmi.toFixed(2)} lo que indica que tienes sobrepeso`;
     else if (bmi >= 30)
-        document.getElementById('resultado').innerText = `Hola ${nombre}, tu BMI es ${bmi.toFixed(2)} lo que indica que tiene un obesidad`;
+        return `Hola ${nombre}, tu BMI es ${bmi.toFixed(2)} lo que indica que tienes obesidad`;
 }
 
-//Funcion para mostrar los resultados dentro de una table
 
-function tablaResultados(){
+
+/* Evento clic del botón "Calcular BMI" */
+let boton = document.getElementById("boton");
+boton.onclick = function () {
+    let nombre = document.getElementById("nombre").value;
+    let masa = parseFloat(document.getElementById("masa").value);
+    let altura = parseFloat(document.getElementById("altura").value);
+
+    let valid = true;
+
+    document.getElementById("error-nombre").innerText = "";
+    document.getElementById("error-masa").innerText = "";
+    document.getElementById("error-altura").innerText = "";
+
+    if (nombre.trim() === "") {
+        document.getElementById("error-nombre").innerText = "Por favor, ingrese su nombre.";
+        valid = false;
+    }
+
+    if (isNaN(masa) || masa <= 0) {
+        document.getElementById("error-masa").innerText = "Por favor, ingrese un número válido para el peso.";
+        valid = false;
+    }
+
+    if (isNaN(altura) || altura <= 0) {
+        document.getElementById("error-altura").innerText = "Por favor, ingrese un número válido para la altura.";
+        valid = false;
+    }
+
+    if (valid) {
+        let bmi = calculadoraBMI(masa, altura);
+        let interpretacion = interpretacionBMI(bmi, nombre);
+        document.getElementById('resultado').innerText = interpretacion;
+
+        let datosBmi = new PersonaObj(nombre, masa, altura, bmi);
+        personasArray.push(datosBmi);
+        guardarEnLocalStorage(datosBmi);
+        tablaResultados();
+    }
+};
+
+/* Función para mostrar los resultados en la tabla */
+function tablaResultados() {
     let tabla = document.getElementById("resultados");
     tabla.innerHTML = ``;
 
-    personasArray.forEach(datosbmi => {
-        tabla.innerHTML +=`
-        <div class="tabla_resultados">
-                <p><strong>Nombre:</strong> ${datosbmi.nombre}</p>
-                <p><strong>Masa (kg):</strong> ${datosbmi.masa}</p>
-                <p><strong>Altura (m):</strong> ${datosbmi.altura}</p>
-                <p><strong>BMI:</strong> ${datosbmi.bmi.toFixed(2)}</p>
+    personasArray.forEach(datosBmi => {
+        tabla.innerHTML += `
+            <div class="tabla_resultados">
+                <p><strong>Nombre:</strong> ${datosBmi.nombre}</p>
+                <p><strong>Masa (kg):</strong> ${datosBmi.masa}</p>
+                <p><strong>Altura (m):</strong> ${datosBmi.altura}</p>
+                <p><strong>BMI:</strong> ${datosBmi.bmi.toFixed(2)}</p>
             </div>
         `;
     });
 }
 
+/* Función para almacenar datos en localStorage */
+function guardarEnLocalStorage(datosBmi) {
+    let personasGuardadas = JSON.parse(localStorage.getItem('personas')) || [];
+    personasGuardadas.push(datosBmi);
+    localStorage.setItem('personas', JSON.stringify(personasGuardadas));
+}
 
+
+/* Función para realizar búsqueda por nombre */
+function buscarPorNombre(nombreBuscado) {
+    let resultados = personasArray.filter(persona => persona.nombre.toLowerCase().includes(nombreBuscado.toLowerCase()));
+    mostrarResultadosBusqueda(resultados);
+}
+
+/* Función para mostrar los resultados de la búsqueda */
+function mostrarResultadosBusqueda(resultados) {
+    let tabla = document.getElementById("resultados");
+    tabla.innerHTML = ``;
+
+    resultados.forEach(datosBmi => {
+        tabla.innerHTML += `
+            <div class="tabla_resultados">
+                <p><strong>Nombre:</strong> ${datosBmi.nombre}</p>
+                <p><strong>Masa (kg):</strong> ${datosBmi.masa}</p>
+                <p><strong>Altura (m):</strong> ${datosBmi.altura}</p>
+                <p><strong>BMI:</strong> ${datosBmi.bmi.toFixed(2)}</p>
+            </div>
+        `;
+    });
+}
+
+/* Evento para búsqueda por nombre */
+let inputBuscar = document.getElementById("buscarNombre");
+inputBuscar.addEventListener('input', function () {
+    let nombreBuscado = inputBuscar.value.trim();
+    if (nombreBuscado === "") {
+        tablaResultados();
+    } else {
+        buscarPorNombre(nombreBuscado);
+    }
+});
+
+/* Función para cargar datos desde localStorage al array personasArray */
+function cargarDesdeLocalStorage() {
+    let personasGuardadas = JSON.parse(localStorage.getItem('personas')) || [];
+    personasArray = personasGuardadas.map(persona => new PersonaObj(persona.nombre, persona.masa, persona.altura, persona.bmi));
+}
+
+/* Cargar datos desde localStorage al cargar la página */
+window.onload = function () {
+    cargarDesdeLocalStorage();
+    tablaResultados();
+};

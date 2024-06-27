@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
 * {
     margin: 0;
@@ -8,43 +8,118 @@
 
 body {
     font-family: 'Poppins', sans-serif;
+    background-color: #f5f6fa;
+    color: #333;
 }
 
 /* NavBar Comienza */
+.navbar {
+    background-color: #0056b3;
+}
 
-.navbar-nav, .navbar-brand {
+.navbar-brand, .navbar-nav .nav-link {
+    color: #fff;
     font-size: 1.25rem;
     font-weight: 600;
 }
 
+.navbar-brand:hover, .navbar-nav .nav-link:hover {
+    color: #ddd;
+}
 /* NavBar finaliza */
 
 /* header inicio */
-
 .container {
-    margin-top: 1.25rem;
+    margin-top: 2rem;
 }
 
-.titulo{
-    font-size: 1.875rem;  
+.titulo {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #0056b3;
 }
 
 .info {
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+}
+
+.info_home, .pasos_bmi, .calculadora_bmi {
+    margin-bottom: 2rem;
+}
+
+.error {
+    color: red;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+}
+
+/* Formulario de Calculadora */
+.calculadora_bmi .Informacion {
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.calculadora_bmi label {
+    font-weight: 600;
+}
+
+.calculadora_bmi input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #cecdcd;
+    border-radius: 0.25rem;
+}
+
+.calculadora_bmi button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #0056b3;
+    color: #fff;
+    border: none;
+    border-radius: 0.25rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.calculadora_bmi button:hover {
+    background-color: #004494;
+}
+
+/* Interpretación de BMI */
+.interpretacion {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.interpretacion h2 {
     font-size: 1.25rem;
 }
 
-/* header fin */
-
 /* resultados inicio */
-
 main {
-    margin-top: 20px;
+    margin-top: 2rem;
 }
 
 .tabla_resultados {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 10px;
+    border: 1px solid #cecdcd;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.tabla_resultados p {
+    margin-bottom: 0.5rem;
+}
+
+.tabla_resultados strong {
+    color: #0056b3;
+}
 /* resultados fin */
