@@ -21,6 +21,18 @@ BMI = m(kg)/a(m)² */
 
 
 
+
+
+/* Funcionamiento de los botones principales para ir a las secciones */
+document.getElementById('btnCalculadora').addEventListener('click', function () {
+    document.getElementById('calculadoraBMI').scrollIntoView({ behavior: 'smooth' });
+});
+/* 
+document.getElementById('goToRecipes').addEventListener('click', function () {
+    document.getElementById('recipes').scrollIntoView({ behavior: 'smooth' });
+}); */
+
+
 /* Clase PersonaObj para almacenar datos de persona */
 class PersonaObj {
     constructor(nombre, masa, altura, bmi) {
@@ -66,20 +78,15 @@ boton.onclick = function () {
     document.getElementById("error-masa").innerText = "";
     document.getElementById("error-altura").innerText = "";
 
-    if (nombre.trim() === "") {
-        document.getElementById("error-nombre").innerText = "Por favor, ingrese su nombre.";
-        valid = false;
-    }
+    /* Operador Ternario */
+    document.getElementById("error-nombre").innerText = nombre.trim() === "" ? "Por favor, ingrese su nombre." : ""; 
+    valid = nombre.trim() === "" ? false : valid; 
 
-    if (isNaN(masa) || masa <= 0) {
-        document.getElementById("error-masa").innerText = "Por favor, ingrese un número válido para el peso.";
-        valid = false;
-    }
+    document.getElementById("error-masa").innerText = isNaN(masa) || masa <= 0 ? "Por favor, ingrese un número válido para el peso." : ""; 
+    valid = isNaN(masa) || masa <= 0 ? false : valid;
 
-    if (isNaN(altura) || altura <= 0) {
-        document.getElementById("error-altura").innerText = "Por favor, ingrese un número válido para la altura.";
-        valid = false;
-    }
+    document.getElementById("error-altura").innerText = isNaN(altura) || altura <= 0 ? "Por favor, ingrese un número válido para la altura." : "";
+    valid = isNaN(altura) || altura <= 0 ? false : valid;
 
     if (valid) {
         let bmi = calculadoraBMI(masa, altura);
